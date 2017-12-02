@@ -54,4 +54,8 @@
     <string name="label_turn_off_suggestions">TURN OFF</string>
     <string name="all_apps_label">All apps</string>
 
+    <!-- Swipe for notifications -->
+    <string name="statusbar_expand_title">Swipe for notifications</string>
+    <string name="statusbar_expand_summary">On the homescreen</string>
+
 </resources>
