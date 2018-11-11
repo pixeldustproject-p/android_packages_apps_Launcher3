@@ -37,7 +37,7 @@ import com.android.internal.util.pixeldust.PixeldustUtils;
 public class Homescreen extends SettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
 
     static final String KEY_FEED_INTEGRATION = "pref_feed_integration";
-    static final String KEY_SHOW_SEARCHBAR = "pref_show_searchbar";
+    static final String KEY_SHOW_QUICKSPACE = "pref_show_quickspace";
 
     @Override
     protected void onCreate(final Bundle bundle) {
@@ -80,12 +80,11 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
             SwitchPreference feedIntegration = (SwitchPreference)
                     findPreference(KEY_FEED_INTEGRATION);
 
-            SwitchPreference showSearchBar = (SwitchPreference)
-                    findPreference(KEY_SHOW_SEARCHBAR);
+            SwitchPreference showQuickspace = (SwitchPreference)
+                    findPreference(KEY_SHOW_QUICKSPACE);
 
             if (!PixeldustUtils.isPackageInstalled(mContext, LauncherTab.SEARCH_PACKAGE)) {
                 getPreferenceScreen().removePreference(feedIntegration);
-                getPreferenceScreen().removePreference(showSearchBar);
             }
 
             // Setup allow rotation preference
@@ -139,7 +138,7 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
                 }
             });
 
-            showSearchBar.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            showQuickspace.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     LauncherAppState.getInstanceNoCreate().setNeedsRestart();
                     return true;
