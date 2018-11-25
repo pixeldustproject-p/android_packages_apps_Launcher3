@@ -27,5 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- QSB -->
     <color name="qsb_drawer_text_color_normal">#ff212121</color>
 
+    <!-- Icon colors -->
+    <color name="qsb_icons_accent">@*android:color/accent_device_default_light</color>
+
 </resources>
 
