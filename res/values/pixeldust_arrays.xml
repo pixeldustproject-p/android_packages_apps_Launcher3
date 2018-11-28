@@ -71,7 +71,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <item>@string/search_provider_bing</item>
         <item>@string/search_provider_duckduckgo</item>
     </string-array>
-     <string-array name="search_provider_values" translatable="false">
+
+    <string-array name="search_provider_values" translatable="false">
         <item>https://www.google.com</item>
         <item>https://www.bing.com</item>
         <item>https://www.duckduckgo.com</item>
@@ -86,13 +87,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <item>@string/date_format_daydate_short_name</item>
         <item>@string/date_format_daydate_long_name</item>
     </string-array>
-     <string-array name="date_format_values" translatable="false">
+
+    <string-array name="date_format_values" translatable="false">
         <item>@string/date_format_long</item>
         <item>@string/date_format_normal</item>
         <item>@string/date_format_short</item>
         <item>@string/date_format_dayonly</item>
         <item>@string/date_format_daydate_short</item>
         <item>@string/date_format_daydate_long</item>
+    </string-array>
+
+    <!-- At a glance letter spacing -->
+    <string-array name="date_style_spacing_names" translatable="false">
+        <item>@string/date_style_spacing_normal</item>
+        <item>@string/date_style_spacing_barely</item>
+        <item>@string/date_style_spacing_aesthetic</item>
+        <item>@string/date_style_spacing_ott</item>
+    </string-array>
+
+    <string-array name="date_style_spacing_values" translatable="false">
+        <item>normal</item>
+        <item>barely</item>
+        <item>aesthetic</item>
+        <item>overthetop</item>
     </string-array>
 
 </resources>
