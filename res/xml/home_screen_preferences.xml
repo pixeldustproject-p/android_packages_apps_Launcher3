@@ -36,6 +36,14 @@
         android:defaultValue="@string/date_format_normal"
         android:dependency="pref_show_quickspace" />
 
+    <SwitchPreference
+        android:dependency="pref_show_quickspace"
+        android:key="pref_date_transform"
+        android:summary="@string/date_style_transform_summary"
+        android:title="@string/date_style_transform_title"
+        android:defaultValue="false"
+        android:persistent="true" />
+
     </PreferenceCategory>
 
     <SwitchPreference
