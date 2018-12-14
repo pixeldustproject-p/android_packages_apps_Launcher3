@@ -80,12 +80,12 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
             SwitchPreference feedIntegration = (SwitchPreference)
                     findPreference(KEY_FEED_INTEGRATION);
 
-            SwitchPreference showSearchBar = (SwitchPreference)
-                    findPreference(KEY_SHOW_SEARCHBAR);
+            //SwitchPreference showSearchBar = (SwitchPreference)
+            //        findPreference(KEY_SHOW_SEARCHBAR);
 
             if (!PixeldustUtils.isPackageInstalled(mContext, LauncherTab.SEARCH_PACKAGE)) {
                 getPreferenceScreen().removePreference(feedIntegration);
-                getPreferenceScreen().removePreference(showSearchBar);
+                //getPreferenceScreen().removePreference(showSearchBar);
             }
 
             // Setup allow rotation preference
@@ -139,12 +139,12 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
                 }
             });
 
-            showSearchBar.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            /*showSearchBar.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     LauncherAppState.getInstanceNoCreate().setNeedsRestart();
                     return true;
                 }
-            });
+            });*/
         }
 
         @Override
