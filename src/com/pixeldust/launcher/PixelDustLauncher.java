@@ -41,6 +41,8 @@ public class PixelDustLauncher extends Launcher {
 
     public class PixelDustLauncherCallbacks implements LauncherCallbacks, OnSharedPreferenceChangeListener {
 
+        public static final String SEARCH_PACKAGE = "com.google.android.googlequicksearchbox";
+
         private final PixelDustLauncher mLauncher;
         private QuickSpaceView mQuickSpace;
 

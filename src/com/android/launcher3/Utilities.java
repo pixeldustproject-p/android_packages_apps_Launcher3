@@ -696,7 +696,7 @@ public final class Utilities {
         handler.sendMessage(msg);
     }
 
-    static boolean hasFeedIntegration(Context context) {
+    public static boolean hasFeedIntegration(Context context) {
         SharedPreferences prefs = getPrefs(context.getApplicationContext());
         return prefs.getBoolean(Homescreen.KEY_FEED_INTEGRATION, true);
     }
