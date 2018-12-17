@@ -1824,12 +1824,12 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
     @Override
     public void bindScreens(ArrayList<Long> orderedScreenIds) {
         // Make sure the first screen is always at the start.
-        if (Utilities.showQSB(this) &&
+        if (FeatureFlags.USE_QUICKSPACE_VIEW &&
                 orderedScreenIds.indexOf(Workspace.FIRST_SCREEN_ID) != 0) {
             orderedScreenIds.remove(Workspace.FIRST_SCREEN_ID);
             orderedScreenIds.add(0, Workspace.FIRST_SCREEN_ID);
             LauncherModel.updateWorkspaceScreenOrder(this, orderedScreenIds);
-        } else if (!Utilities.showQSB(this) && orderedScreenIds.isEmpty()) {
+        } else if (!FeatureFlags.USE_QUICKSPACE_VIEW && orderedScreenIds.isEmpty()) {
             // If there are no screens, we need to have an empty screen
             mWorkspace.addExtraEmptyScreen();
         }
@@ -1845,7 +1845,7 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
         int count = orderedScreenIds.size();
         for (int i = 0; i < count; i++) {
             long screenId = orderedScreenIds.get(i);
-            if (!Utilities.showQSB(this) || screenId != Workspace.FIRST_SCREEN_ID) {
+            if (!FeatureFlags.USE_QUICKSPACE_VIEW || screenId != Workspace.FIRST_SCREEN_ID) {
                 // No need to bind the first screen, as its always bound.
                 mWorkspace.insertNewWorkspaceScreenBeforeEmptyScreen(screenId);
             }

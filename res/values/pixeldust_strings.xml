@@ -93,4 +93,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <string name="show_searchbar_title">Show search bar</string>
     <string name="show_searchbar_summary">Show the search bar on the home screen</string>
 
+    <!-- QuickSpace -->
+    <string name="abbrev_wday_month_day_no_year">EEEEMMMd</string>
+
 </resources>

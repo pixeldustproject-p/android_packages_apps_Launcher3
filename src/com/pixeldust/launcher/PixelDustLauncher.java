@@ -22,9 +22,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
+import com.pixeldust.launcher.quickspace.QuickSpaceView;
+
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherCallbacks;
+import com.android.launcher3.R;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -39,16 +42,23 @@ public class PixelDustLauncher extends Launcher {
     public class PixelDustLauncherCallbacks implements LauncherCallbacks, OnSharedPreferenceChangeListener {
 
         private final PixelDustLauncher mLauncher;
+        private QuickSpaceView mQuickSpace;
 
         public PixelDustLauncherCallbacks(PixelDustLauncher launcher) {
             mLauncher = launcher;
         }
 
         @Override
-        public void onCreate(Bundle savedInstanceState) { }
+        public void onCreate(Bundle savedInstanceState) {
+            mQuickSpace = mLauncher.findViewById(R.id.reserved_container_workspace);
+        }
 
         @Override
-        public void onResume() { }
+        public void onResume() {
+            if (mQuickSpace != null) {
+                mQuickSpace.onResume();
+            }
+        }
 
         @Override
         public void onStart() { }
