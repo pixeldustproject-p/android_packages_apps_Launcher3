@@ -27,7 +27,9 @@ import com.pixeldust.launcher.quickspace.QuickSpaceView;
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherCallbacks;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.R;
+import com.google.android.libraries.gsa.launcherclient.LauncherClient;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -41,8 +43,16 @@ public class PixelDustLauncher extends Launcher {
 
     public class PixelDustLauncherCallbacks implements LauncherCallbacks, OnSharedPreferenceChangeListener {
 
+        public static final String SEARCH_PACKAGE = "com.google.android.googlequicksearchbox";
+
         private final PixelDustLauncher mLauncher;
         private QuickSpaceView mQuickSpace;
+
+        private OverlayCallbackImpl mOverlayCallbacks;
+        private LauncherClient mLauncherClient;
+        private boolean mStarted;
+        private boolean mResumed;
+        private boolean mAlreadyOnHome;
 
         public PixelDustLauncherCallbacks(PixelDustLauncher launcher) {
             mLauncher = launcher;
@@ -51,6 +61,12 @@ public class PixelDustLauncher extends Launcher {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             mQuickSpace = mLauncher.findViewById(R.id.reserved_container_workspace);
+
+            SharedPreferences prefs = Utilities.getPrefs(mLauncher);
+            mOverlayCallbacks = new OverlayCallbackImpl(mLauncher);
+            mLauncherClient = new LauncherClient(mLauncher, mOverlayCallbacks, getClientOptions(prefs));
+            mOverlayCallbacks.setClient(mLauncherClient);
+            prefs.registerOnSharedPreferenceChangeListener(this);
         }
 
         @Override
@@ -58,19 +74,40 @@ public class PixelDustLauncher extends Launcher {
             if (mQuickSpace != null) {
                 mQuickSpace.onResume();
             }
+
+            mResumed = true;
+            if (mStarted) {
+                mAlreadyOnHome = true;
+            }
+            mLauncherClient.onResume();
         }
 
         @Override
-        public void onStart() { }
+        public void onStart() {
+            mStarted = true;
+            mLauncherClient.onStart();
+        }
 
         @Override
-        public void onStop() { }
+        public void onStop() {
+            mStarted = false;
+            if (!mResumed) {
+                mAlreadyOnHome = false;
+            }
+            mLauncherClient.onStop();
+        }
 
         @Override
-        public void onPause() { }
+        public void onPause() {
+            mResumed = false;
+            mLauncherClient.onPause();
+        }
 
         @Override
-        public void onDestroy() { }
+        public void onDestroy() {
+            mLauncherClient.onDestroy();
+            Utilities.getPrefs(mLauncher).unregisterOnSharedPreferenceChangeListener(this);
+        }
 
         @Override
         public void onSaveInstanceState(Bundle outState) { }
@@ -82,22 +119,28 @@ public class PixelDustLauncher extends Launcher {
         public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) { }
 
         @Override
-        public void onAttachedToWindow() { }
+        public void onAttachedToWindow() {
+            mLauncherClient.onAttachedToWindow();
+        }
 
         @Override
-        public void onDetachedFromWindow() { }
+        public void onDetachedFromWindow() {
+            mLauncherClient.onDetachedFromWindow();
+        }
 
         @Override
         public void dump(String prefix, FileDescriptor fd, PrintWriter w, String[] args) { }
 
         @Override
-        public void onHomeIntent(boolean internalStateHandled) { }
+        public void onHomeIntent(boolean internalStateHandled) {
+            mLauncherClient.hideOverlay(mAlreadyOnHome);
+        }
 
         @Override
         public boolean handleBackPressed() {
             return false;
         }
-      
+
         @Override
         public void onTrimMemory(int level) { }
 
@@ -114,11 +157,23 @@ public class PixelDustLauncher extends Launcher {
 
         @Override
         public boolean hasSettings() {
-            return false;
+            return true;
         }
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) { }
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (SettingsFragment.KEY_MINUS_ONE.equals(key)) {
+                mLauncherClient.setClientOptions(getClientOptions(sharedPreferences));
+            }
+        }
 
+        private LauncherClient.ClientOptions getClientOptions(SharedPreferences prefs) {
+            boolean hasPackage = Bits.hasPackageInstalled(mLauncher, SEARCH_PACKAGE);
+            boolean isEnabled = prefs.getBoolean(SettingsFragment.KEY_MINUS_ONE, true);
+            return new LauncherClient.ClientOptions(hasPackage && isEnabled,
+                    true, /* enableHotword */
+                    true /* enablePrewarming */
+            );
+        }
     }
 }
