@@ -56,11 +56,7 @@ public class PixelDustLauncher extends Launcher {
         }
 
         @Override
-        public void onResume() {
-            if (mQuickSpace != null) {
-                mQuickSpace.onResume();
-            }
-        }
+        public void onResume() { }
 
         @Override
         public void onStart() { }
@@ -69,7 +65,11 @@ public class PixelDustLauncher extends Launcher {
         public void onStop() { }
 
         @Override
-        public void onPause() { }
+        public void onPause() {
+            if (mQuickSpace != null) {
+                mQuickSpace.onPause();
+            }
+        }
 
         @Override
         public void onDestroy() { }
