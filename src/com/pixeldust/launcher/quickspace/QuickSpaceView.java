@@ -38,11 +38,15 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.pixeldust.launcher.views.DateTextView;
+import com.pixeldust.launcher.PixelDustLauncher.PixelDustLauncherCallbacks;
+import com.pixeldust.launcher.quickspace.receivers.QuickSpaceActionReceiver;
 
 import com.android.internal.util.weather.WeatherClient;
 import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.ItemInfo;
+import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 
 public class QuickSpaceView extends FrameLayout implements ValueAnimator.AnimatorUpdateListener, WeatherClient.WeatherObserver, Runnable {
 
@@ -50,6 +54,7 @@ public class QuickSpaceView extends FrameLayout implements ValueAnimator.Animato
     private static final String FONT_FAMILY_MEDIUM = "sans-serif-medium";
 
     protected ContentResolver mContentResolver;
+    protected Context mContext;
 
     private BubbleTextView mBubbleTextView;
     private DateTextView mClockView;
@@ -65,8 +70,11 @@ public class QuickSpaceView extends FrameLayout implements ValueAnimator.Animato
     private WeatherSettingsObserver mWeatherSettingsObserver;
     private boolean mUseImperialUnit;
 
+    private QuickSpaceActionReceiver mActionReceiver;
+
     public QuickSpaceView(Context context, AttributeSet set) {
         super(context, set);
+        mContext = context;
         mHandler = new Handler();
         if (WeatherClient.isAvailable(context)) {
             mWeatherSettingsObserver = new WeatherSettingsObserver(
@@ -76,6 +84,8 @@ public class QuickSpaceView extends FrameLayout implements ValueAnimator.Animato
             mWeatherClient = new WeatherClient(getContext());
             mWeatherClient.addObserver(this);
         }
+
+        mActionReceiver = new QuickSpaceActionReceiver(context);
     }
 
     private void initListeners() {
@@ -84,6 +94,9 @@ public class QuickSpaceView extends FrameLayout implements ValueAnimator.Animato
 
     private void loadSingleLine() {
         setBackgroundResource(0);
+        boolean hasGoogleApp = Bits.hasPackageInstalled(Launcher.getLauncher(mContext), PixelDustLauncherCallbacks.SEARCH_PACKAGE);
+        boolean hasGoogleCalendar = Bits.hasPackageInstalled(Launcher.getLauncher(mContext), "com.google.android.calendar");
+        mClockView.setOnClickListener(hasGoogleCalendar ? mActionReceiver.getCalendarAction() : null);
         if (!WeatherClient.isAvailable(getContext())) {
             mWeatherContent.setVisibility(View.GONE);
             mSeparator.setVisibility(View.GONE);
@@ -113,6 +126,7 @@ public class QuickSpaceView extends FrameLayout implements ValueAnimator.Animato
         mSeparator.setVisibility(View.VISIBLE);
         mWeatherContent.setVisibility(View.VISIBLE);
         mWeatherTemp.setText(temperatureText);
+        mWeatherTemp.setOnClickListener(hasGoogleApp ? mActionReceiver.getWeatherAction() : null);
         mWeatherIcon.setImageIcon(conditionIcon);
     }
 
