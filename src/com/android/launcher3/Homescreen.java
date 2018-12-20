@@ -18,6 +18,7 @@ package com.android.launcher3;
 
 import static com.android.launcher3.states.RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY;
 import static com.android.launcher3.states.RotationHelper.getAllowRotationDefaultValue;
+import static com.android.launcher3.Utilities.getDevicePrefs;
 
 import android.app.ActionBar;
 import android.app.DialogFragment;
@@ -64,6 +65,7 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
         ActionBar actionBar;
 
         private Context mContext;
+        private ListPreference mCustomRecentsType;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -214,6 +216,18 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
                 }
             });
 
+            SwitchPreference useCustomRecentsRound = (SwitchPreference) findPreference(Utilities.PREF_CUSTOM_RECENTS_ROUND_SWITCH);
+            useCustomRecentsRound.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    LauncherAppState.getInstanceNoCreate().setNeedsRestart();
+                    return true;
+                }
+            });
+
+            mCustomRecentsType = (ListPreference) findPreference(Utilities.PREF_CUSTOM_RECENTS_ROUND_TYPE);
+            mCustomRecentsType.setValue(getDevicePrefs(mContext).getString(Utilities.PREF_CUSTOM_RECENTS_ROUND_TYPE, "0"));
+            mCustomRecentsType.setOnPreferenceChangeListener(this);
+
         }
 
         @Override
@@ -229,6 +243,12 @@ public class Homescreen extends SettingsActivity implements PreferenceFragment.O
         @Override
         public boolean onPreferenceChange(Preference preference, final Object newValue) {
             switch (preference.getKey()) {
+                case Utilities.PREF_CUSTOM_RECENTS_ROUND_TYPE:
+                    String roundValue = (String) newValue;
+                    getDevicePrefs(mContext).edit().putString(Utilities.PREF_CUSTOM_RECENTS_ROUND_TYPE, roundValue).commit();
+                    mCustomRecentsType.setValue(roundValue);
+                    LauncherAppState.getInstanceNoCreate().setNeedsRestart();
+                    break;
             }
             return false;
         }

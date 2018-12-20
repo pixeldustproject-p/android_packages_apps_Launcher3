@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <resources>
+
     <!-- QSB -->
     <dimen name="hotseat_qsb_scroll_key_shadow_offset">2.0dip</dimen>
     <dimen name="hotseat_qsb_scroll_shadow_blur_radius">1.5dip</dimen>
@@ -34,5 +35,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <dimen name="all_apps_label_text_size">14.0sp</dimen>
     <dimen name="all_apps_label_top_padding">16.0dip</dimen>
     <dimen name="all_apps_prediction_row_divider_height">17.0dip</dimen>
+
+    <!-- Custom rounded corners -->
+    <dimen name="task_corner_radius_default">2dp</dimen>
+    <dimen name="task_corner_radius_round">8dp</dimen>
+    <dimen name="task_corner_radius_op">16dp</dimen>
 
 </resources>
