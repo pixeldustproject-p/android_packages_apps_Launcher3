@@ -15,6 +15,13 @@
         android:defaultValue="true"
         android:persistent="true"/>
 
+    <SwitchPreference
+        android:key="pref_show_workspace_grad"
+        android:title="@string/workspace_gradient_title"
+        android:summary="@string/workspace_gradient_summary"
+        android:defaultValue="true"
+        android:persistent="true"/>
+
     <PreferenceCategory
         android:key="home_quickspace_category"
         android:title="@string/home_quickspace_title">
@@ -81,6 +88,13 @@
         android:entryValues="@array/grid_values"
         android:defaultValue="-1"
         android:persistent="true" />
+
+    <SwitchPreference
+        android:key="pref_show_hotseat_grad"
+        android:title="@string/hotseat_gradient_title"
+        android:summary="@string/hotseat_gradient_summary"
+        android:defaultValue="true"
+        android:persistent="true"/>
 
     <SwitchPreference
         android:key="pref_desktop_show_label"
