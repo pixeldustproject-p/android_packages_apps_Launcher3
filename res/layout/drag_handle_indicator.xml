@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2018 The Pixel Dust Project
+     Copyright (C) 2018 CypherOS
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,19 +14,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
-<resources>
-
-    <!-- QuickSpace -->
-    <style name="QuickSpaceText">
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <!-- QSB -->
-    <style name="HotseatQsbTheme">
-        <item name="gIcon">@drawable/ic_super_g_color</item>
-        <item name="micIcon">@drawable/ic_poodle_color</item>
-    </style>
-
-</resources>
-
+<com.pixeldust.launcher.views.DragHandleIndicator
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@id/drag_indicator"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scaleType="centerInside"
+    android:tint="?workspaceTextColor"
+    android:contentDescription="Overview" />

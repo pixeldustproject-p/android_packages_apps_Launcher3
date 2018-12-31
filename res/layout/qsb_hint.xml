@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2018 The Pixel Dust Project
+     Copyright (C) 2018 CypherOS
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
-<resources>
-
-    <!-- QuickSpace -->
-    <style name="QuickSpaceText">
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <!-- QSB -->
-    <style name="HotseatQsbTheme">
-        <item name="gIcon">@drawable/ic_super_g_color</item>
-        <item name="micIcon">@drawable/ic_poodle_color</item>
-    </style>
-
-</resources>
-
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/qsb_hint_text_size"
+    android:textColor="#ff80868b"
+    android:ellipsize="end"
+    android:gravity="center"
+    android:layout_gravity="end|center"
+    android:id="@+id/qsb_hint"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:maxWidth="220.0dip"
+    android:maxLines="1"
+    android:includeFontPadding="false"
+    android:alpha="0.87"
+    android:importantForAccessibility="no"
+    style="@style/TextTitle" />

@@ -21,7 +21,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.view.View;
 
+import com.pixeldust.launcher.qsb.QsbAnimationController;
 import com.pixeldust.launcher.quickspace.QuickSpaceView;
 
 import com.android.launcher3.AppInfo;
@@ -39,8 +41,19 @@ import java.util.ArrayList;
 
 public class PixelDustLauncher extends Launcher {
 
+    private LauncherClient mLauncherClient;
+    private QsbAnimationController mQsbController;
+
     public PixelDustLauncher() {
         setLauncherCallbacks(new PixelDustLauncherCallbacks(this));
+    }
+
+    public LauncherClient getClient() {
+        return mLauncherClient;
+    }
+
+    public QsbAnimationController getQsbController() {
+        return mQsbController;
     }
 
     public class PixelDustLauncherCallbacks implements LauncherCallbacks, OnSharedPreferenceChangeListener {
@@ -51,7 +64,6 @@ public class PixelDustLauncher extends Launcher {
         private QuickSpaceView mQuickSpace;
 
         private OverlayCallbackImpl mOverlayCallbacks;
-        private LauncherClient mLauncherClient;
         private boolean mStarted;
         private boolean mResumed;
         private boolean mAlreadyOnHome;
@@ -68,6 +80,7 @@ public class PixelDustLauncher extends Launcher {
             mOverlayCallbacks = new OverlayCallbackImpl(mLauncher);
             mLauncherClient = new LauncherClient(mLauncher, mOverlayCallbacks, new ClientOptions(((prefs.getBoolean(SettingsFragment.KEY_MINUS_ONE, true) ? 1 : 0) | 2 | 4 | 8)));
             mOverlayCallbacks.setClient(mLauncherClient);
+            mQsbController = new QsbAnimationController(mLauncher);
             prefs.registerOnSharedPreferenceChangeListener(this);
         }
 
@@ -177,6 +190,17 @@ public class PixelDustLauncher extends Launcher {
 
         @Override
         public boolean startSearch(String initialQuery, boolean selectInitialQuery, Bundle appSearchData) {
+            View gIcon = mLauncher.findViewById(R.id.g_icon);
+            while (gIcon != null && !gIcon.isClickable()) {
+                if (gIcon.getParent() instanceof View) {
+                    gIcon = (View)gIcon.getParent();
+                } else {
+                    gIcon = null;
+                }
+            }
+            if (gIcon != null && gIcon.performClick()) {
+                return true;
+            }
             return false;
         }
 
@@ -197,10 +221,6 @@ public class PixelDustLauncher extends Launcher {
                     mLauncherClient.getEventInfo().parse("setClientOptions ", mLauncherClient.mFlags);
                 }
             }
-        }
-
-        private LauncherClient getClient() {
-            return mLauncherClient;
         }
     }
 }
