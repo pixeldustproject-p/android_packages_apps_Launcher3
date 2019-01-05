@@ -31,9 +31,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <string name="gestures_category_summary">Enhance your experience</string>
 
     <!-- Sub categories -->
+    <string name="home_general_title">General</string>
+    <string name="home_quickspace_title">At A Glance</string>
+    <string name="home_dock_title">Dock</string>
+    <string name="home_recents_title">Recents</string>
     <string name="home_grid_title">Grid layout</string>
     <string name="icon_layout_title">Icon layout</string>
-    <string name="home_quickspace_title">At A Glance</string>
 
     <!-- Icon packs -->
     <string name="iconPackPackageDefault" translatable="false">""</string>
