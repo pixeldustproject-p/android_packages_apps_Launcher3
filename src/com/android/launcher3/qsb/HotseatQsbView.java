@@ -95,7 +95,7 @@ public class HotseatQsbView extends BaseQsbView {
         setSuperGAlpha();
         super.onAttachedToWindow();
         getContext().registerReceiver(mWallpaperChanged, new IntentFilter("android.intent.action.WALLPAPER_CHANGED"));
-        setMicRipple();
+        //setMicRipple();
         setOnFocusChangeListener(mLauncher.mFocusHandler);
     }
 
@@ -132,7 +132,7 @@ public class HotseatQsbView extends BaseQsbView {
         loadViews();
         setSuperGAlpha();
         getBaseQsbView();
-        setMicRipple();
+        //setMicRipple();
     }
 
     @Override
