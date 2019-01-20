@@ -26,8 +26,6 @@ import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.android.internal.util.pixeldust.ambient.play.AmbientPlayHistoryEntry;
-import com.android.internal.util.pixeldust.ambient.play.AmbientPlayHistoryManager;
 import com.android.internal.util.weather.WeatherClient;
 import com.android.internal.util.weather.WeatherClient.WeatherInfo;
 import com.android.internal.util.weather.WeatherClient.WeatherObserver;
@@ -40,7 +38,6 @@ import java.util.ArrayList;
 
 public class QuickEventsController {
 
-    private static final int AMBIENT_INFO_MAX_DURATION = 120000; // 2 minutes
     private static final String SETTING_DEVICE_INTRO_COMPLETED = "device_introduction_completed";
     private Context mContext;
 
@@ -55,32 +52,15 @@ public class QuickEventsController {
     private boolean mEventIntro = false;
     private boolean mEventIntroClicked = false;
     private boolean mIsFirstTimeDone;
-     // Ambient Play
-    private boolean mEventAmbientPlay = false;
-    private long mLastAmbientInfo;
-
-    private BroadcastReceiver mAmbientReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent == null || intent.getAction() == null) {
-                return;
-            }
-            if (intent.getAction().equals(AmbientPlayHistoryManager.INTENT_SONG_MATCH.getAction())) {
-                initAmbientPlayEvent();
-            }
-        }
-    };
 
     public QuickEventsController(Context context) {
         mContext = context;
-        context.registerReceiver(mAmbientReceiver, new IntentFilter(AmbientPlayHistoryManager.INTENT_SONG_MATCH.getAction()));
         initQuickEvents();
     }
 
     public void initQuickEvents() {
         mIsFirstTimeDone = Settings.System.getInt(mContext.getContentResolver(), SETTING_DEVICE_INTRO_COMPLETED, 0) != 0;
         deviceIntroEvent();
-        ambientPlayEvent();
     }
 
     private void deviceIntroEvent() {
@@ -104,44 +84,6 @@ public class QuickEventsController {
                 }
                 mIsQuickEvent = false;
                 mEventIntroClicked = true;
-            }
-        };
-    }
-
-    public void ambientPlayEvent() {
-        if (mEventAmbientPlay) {
-            boolean infoExpired = System.currentTimeMillis() - mLastAmbientInfo > AMBIENT_INFO_MAX_DURATION;
-            if (infoExpired) {
-                mIsQuickEvent = false;
-                mEventAmbientPlay = false;
-            }
-        }
-    }
-
-    public void initAmbientPlayEvent() {
-        if (mEventIntro) return;
-        List<AmbientPlayHistoryEntry> songInfo = AmbientPlayHistoryManager.getSongs(mContext);
-        if (songInfo.size() < 1) return;
-        AmbientPlayHistoryEntry entry = songInfo.get(0);
-        mEventTitle = mContext.getResources().getString(R.string.quick_event_ambient_now_playing);
-        mEventTitleSub = String.format(mContext.getResources().getString(
-                R.string.quick_event_ambient_song_artist), entry.getSongTitle(), entry.getArtistTitle());
-        mEventSubIcon = R.drawable.ic_music_note_24dp;
-        mIsQuickEvent = true;
-        mEventAmbientPlay = true;
-        mLastAmbientInfo = System.currentTimeMillis();
-
-        mEventTitleSubAction = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String query = String.format(mContext.getResources().getString(
-                        R.string.quick_event_ambient_song_artist), entry.getSongTitle(), entry.getArtistTitle());
-                final Intent ambient = new Intent(Intent.ACTION_WEB_SEARCH)
-                        .putExtra(SearchManager.QUERY, query);
-                try {
-                    Launcher.getLauncher(mContext).startActivitySafely(view, ambient, null);
-                } catch (ActivityNotFoundException ex) {
-                }
             }
         };
     }
