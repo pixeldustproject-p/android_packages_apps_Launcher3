@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- Icon packs -->
     <string name="icon_pack">Symbolpaket</string>
     <string name="icon_pack_summary">Aussehen der App-Symbole verändern</string>
-    <string name="icon_pack_none">Keines</string>
+    <string name="icon_pack_none">Standard</string>
 
     <!-- Icon shape -->
     <string name="icon_shape_override_label_custom">Symbolform</string>
