@@ -160,4 +160,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <string name="custom_recents_corners_type_card">Abgerundete Karten</string>
     <string name="custom_recents_corners_type_op">OP Stil</string>
 
+    <!-- Lock desktop -->
+    <string name="lock_desktop_title">Startbildschirm sperren</string>
+    <string name="lock_desktop_summary">Startbildschirm sperren, um Veränderungen zu verhindern</string>
+
 </resources>
