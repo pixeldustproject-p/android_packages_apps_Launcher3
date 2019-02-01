@@ -127,6 +127,7 @@ public class AppDrawer extends SettingsActivity implements PreferenceFragment.On
                 }
             });
 
+            /*
             SwitchPreference allAppsLongLabels = (SwitchPreference) findPreference(
                     Utilities.PREF_ALLAPPS_LONG_LABELS);
             allAppsLongLabels.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -134,7 +135,7 @@ public class AppDrawer extends SettingsActivity implements PreferenceFragment.On
                     LauncherAppState.getInstanceNoCreate().setNeedsRestart();
                     return true;
                 }
-            });
+            });*/
 
             Preference hiddenApp = findPreference(Utilities.KEY_HIDDEN_APPS);
             hiddenApp.setOnPreferenceClickListener(
