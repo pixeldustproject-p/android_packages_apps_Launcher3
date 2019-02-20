@@ -41,8 +41,8 @@ LOCAL_PROTOC_OPTIMIZE_TYPE := nano
 LOCAL_PROTOC_FLAGS := --proto_path=$(LOCAL_PATH)/protos/ --proto_path=$(LOCAL_PATH)/proto_overrides/
 LOCAL_PROTO_JAVA_OUTPUT_PARAMS := enum_style=java
 
-LOCAL_SDK_VERSION := current
-LOCAL_MIN_SDK_VERSION := 21
+LOCAL_PRIVATE_PLATFORM_APIS := true
+LOCAL_CERTIFICATE := platform
 LOCAL_MODULE := Launcher3CommonDepsLib
 LOCAL_PRIVILEGED_MODULE := true
 LOCAL_MANIFEST_FILE := AndroidManifest-common.xml
@@ -130,6 +130,7 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_STATIC_JAVA_LIBRARIES := \
     SystemUISharedLib
+
 LOCAL_STATIC_ANDROID_LIBRARIES := Launcher3CommonDepsLib
 
 LOCAL_SRC_FILES := \
@@ -197,6 +198,7 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_STATIC_JAVA_LIBRARIES := \
     SystemUISharedLib
+
 LOCAL_STATIC_ANDROID_LIBRARIES := Launcher3CommonDepsLib
 
 LOCAL_SRC_FILES := \

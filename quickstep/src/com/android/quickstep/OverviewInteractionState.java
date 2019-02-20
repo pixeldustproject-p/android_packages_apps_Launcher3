@@ -28,10 +28,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
+import com.android.internal.utils.ActionUtils;
 import com.android.launcher3.MainThreadExecutor;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.allapps.DiscoveryBounce;
@@ -212,6 +214,8 @@ public class OverviewInteractionState {
         public void register() {
             mResolver.registerContentObserver(Settings.Secure.getUriFor(SWIPE_UP_SETTING_NAME),
                     false, this);
+            mResolver.registerContentObserver(Settings.Secure.getUriFor(Settings.Secure.NAVIGATION_BAR_VISIBLE),
+                    false, this);
             mSwipeUpEnabled = getValue();
             resetHomeBounceSeenOnQuickstepEnabledFirstTime();
         }
@@ -224,7 +228,12 @@ public class OverviewInteractionState {
         }
 
         private boolean getValue() {
-            return Settings.Secure.getInt(mResolver, SWIPE_UP_SETTING_NAME, defaultValue) == 1;
+            boolean mNavBarVisible = Settings.Secure.getInt(mResolver,
+                Settings.Secure.NAVIGATION_BAR_VISIBLE,
+                ActionUtils.hasNavbarByDefault(mContext) ? 1 : 0) != 0;
+            boolean mSwipeUpEnabled = Settings.Secure.getIntForUser(mResolver, SWIPE_UP_SETTING_NAME,
+                defaultValue, UserHandle.USER_CURRENT) == 1;
+            return mNavBarVisible && mSwipeUpEnabled;
         }
     }
 
