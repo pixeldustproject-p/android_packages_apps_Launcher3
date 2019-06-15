@@ -158,7 +158,6 @@
         launcher:minHeightDps="1207"
         launcher:numRows="6"
         launcher:numColumns="7"
-        launcher:numAllAppColumns="7"
         launcher:numFolderRows="4"
         launcher:numFolderColumns="5"
         launcher:iconSize="76"
